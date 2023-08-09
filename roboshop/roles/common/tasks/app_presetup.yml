@@ -1,0 +1,44 @@
+#echo -e "${color} Add Application User ${nocolor}"
+
+
+#useradd roboshop &>>$log_file
+
+#stat_check $?
+
+#echo -e "${color} Create application directory${nocolor}"
+#rm -rf /app &>>$log_file &>>$log_file
+#mkdir /app &>>$log_file &>>$log_file
+
+#stat_check $?
+
+#echo -e "${color} Download Application Content${nocolor}"
+#curl -o /tmp/$component.zip https://roboshop-artifacts.s3.amazonaws.com/$component.zip &>>$log_file
+#cd ${app_path} &>>$log_file
+
+#stat_check $?
+
+#echo -e "${color} Extract Application content${nocolor}"
+#unzip /tmp/$component.zip &>>$log_file
+#cd ${app_path} &>>$log_file
+#echo $?
+#stat_check $?
+
+- name: Add application user
+  ansible.builtin.user:
+    name: roboshop
+
+- name: Remove Old Directory
+  ansible.builtin.file:
+    path: /app
+    state: absent
+
+- name: Create old Directory
+  ansible.builtin.file:
+    path: /app
+    state: directory
+
+- name: Download Extract app content
+  ansible.builtin.unarchive:
+    src: https://roboshop-artifacts.s3.amazonaws.com/{{ component }}.zip
+    dest: /app
+    remote_src: yes

@@ -5,3 +5,18 @@
   ansible.builtin.yum:
     name: nodeJs
     state: installed
+
+- name: App pre-reqisities
+  ansible.builtin.import_tasks:
+    file: app_presetup.yml
+
+
+#app_presetup
+
+#echo -e "${color} Install NodeJS Dependiencies ${nocolor}"
+
+#npm install &>>$log_file
+
+#stat_check $ ?
+
+#systemd_setup
